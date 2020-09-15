@@ -8,11 +8,12 @@ import App from "./components/App";
 import reducers from "./reducers";
 
 //for testing email object
-// import axios from 'axios';
-// window.axios = axios;
+import axios from "axios";
+window.axios = axios;
 
 /*
-const survey = {title:'my title',subject:"my subject", recipients:'test@email.com',body:'heres the body of the email'};
+const survey = {title:'my title',subject:"Give us Feedback!", recipients:'test@email.com',
+body:'we would like to hear if you enjoyed our service'};
 axios.post('/api/surveys', survey);
 
 */
