@@ -25,10 +25,11 @@ class SurveyForm extends Component {
     });
   }
   render() {
+    //onSurveySubmit is a callback function from SurveyNew.js
     return (
       <div>
         <form
-          onSubmit={this.props.handleSubmit((values) => console.log(values))}
+          onSubmit={this.props.handleSubmit(this.props.onSurveySubmit)}
         >
           {this.renderField()}
           <Link to="/surveys" className="red btn-flat white-text">
