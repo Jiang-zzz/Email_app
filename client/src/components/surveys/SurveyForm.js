@@ -3,16 +3,10 @@ import { reduxForm, Field } from "redux-form";
 import { Link } from "react-router-dom";
 import SurveyField from "./SurveyField";
 import validateEmails from "../../utils/validateEmails";
-
-const FIELDS = [
-  { label: "Survey Title", name: "title" },
-  { label: "Subject Line", name: "subject" },
-  { label: "Email Body", name: "Body" },
-  { label: "Recipient List", name: "emails" },
-];
+import formFields from "./formFields";
 class SurveyForm extends Component {
   renderField() {
-    return FIELDS.map(({ label, name }) => {
+    return formFields.map(({ label, name }) => {
       return (
         <Field
           key={name}
@@ -28,9 +22,7 @@ class SurveyForm extends Component {
     //onSurveySubmit is a callback function from SurveyNew.js
     return (
       <div>
-        <form
-          onSubmit={this.props.handleSubmit(this.props.onSurveySubmit)}
-        >
+        <form onSubmit={this.props.handleSubmit(this.props.onSurveySubmit)}>
           {this.renderField()}
           <Link to="/surveys" className="red btn-flat white-text">
             Cancel
@@ -51,9 +43,9 @@ function validate(values) {
   //if there is an error, we add the key of error field to errors
   const errors = {};
   // if nothing provided, give an empty string as reduxForm will run it once when the site loads up
-  errors.emails = validateEmails(values.emails || "");
+  errors.recipients = validateEmails(values.recipients || "");
   // if the user give nothing, the below error will overide
-  FIELDS.forEach(({ name }) => {
+  formFields.forEach(({ name }) => {
     if (!values[name]) {
       errors[name] = "You must provide a value";
     }
@@ -62,7 +54,9 @@ function validate(values) {
   return errors;
 }
 
+// destroyOnUnmount: false disable reduxForm from dumping the filled value
 export default reduxForm({
   validate: validate,
   form: "surveyForm",
+  destroyOnUnmount: false,
 })(SurveyForm);
