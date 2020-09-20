@@ -9,14 +9,19 @@ const surveyTemplate = require("../services/emailTemplates/surveyTemplate");
 const Survey = mongoose.model("surveys");
 
 module.exports = (app) => {
-
+  app.get("/api/surveys", requireLogin, async (req, res) => {
+    const surveys = await Survey.find({ _user: req.user.id }).select({
+      recipients: false,
+    });
+    res.send(surveys);
+  });
 
   app.get("/api/surveys/:surveyId/:choice", (req, res) => {
     res.send("Thanks for voting!");
   });
 
-  app.post('/api/surveys/webhooks', (req, res) => {
-    const p = new Path('/api/surveys/:surveyId/:choice');
+  app.post("/api/surveys/webhooks", (req, res) => {
+    const p = new Path("/api/surveys/:surveyId/:choice");
 
     _.chain(req.body)
       .map(({ email, url }) => {
@@ -26,7 +31,7 @@ module.exports = (app) => {
         }
       })
       .compact()
-      .uniqBy('email', 'surveyId')
+      .uniqBy("email", "surveyId")
       .each(({ surveyId, email, choice }) => {
         Survey.updateOne(
           {
@@ -37,8 +42,8 @@ module.exports = (app) => {
           },
           {
             $inc: { [choice]: 1 },
-            $set: { 'recipients.$.responded': true },
-            lastResponded: new Date()
+            $set: { "recipients.$.responded": true },
+            lastResponded: new Date(),
           }
         ).exec();
       })
