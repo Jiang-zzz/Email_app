@@ -7,7 +7,7 @@ import * as actions from "../../actions";
 // "history" is provided by withRouter
 // https://reactrouter.com/core/api/withRouter
 
-const SurveyFormReview = ({ onCancel, formValues, submitSurvey,history }) => {
+const SurveyFormReview = ({ onCancel, formValues, submitSurvey, history }) => {
   const fieldsList = formFields.map(({ name, label }) => {
     return (
       <div key={name}>
