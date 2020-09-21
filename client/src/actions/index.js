@@ -1,5 +1,5 @@
 import axios from "axios";
-import { FETCH_USER,FETCH_SURVEYS } from "./types";
+import { FETCH_USER, FETCH_SURVEYS,DELETE_SURVEYS } from "./types";
 
 // redux-thunk will automatically pass dispatch function
 // as an argument if the return statement is a function
@@ -18,12 +18,18 @@ export const handleToken = (token) => async (dispatch) => {
 export const submitSurvey = (values, history) => async (dispatch) => {
   const res = await axios.post("/api/surveys", values);
   // redirect to the "/surveys" route
-  history.push('/surveys')
+  history.push("/surveys");
   dispatch({ type: FETCH_USER, payload: res.data });
 };
 
-export const fetchSurveys = () =>async (dispatch)=>{
-  const res = await axios.get('/api/surveys');
+export const deleteSurvey = ({_id, _user}) => async (dispatch) => {
+  // console.log("values:",values)
+  const res = await axios.post("/api/surveys/delete",{_id, _user});
+  dispatch({ type: DELETE_SURVEYS, payload: res.data });
+};
 
-  dispatch({type: FETCH_SURVEYS, payload: res.data})
-}
+export const fetchSurveys = () => async (dispatch) => {
+  const res = await axios.get("/api/surveys");
+  console.log(res.data)
+  dispatch({ type: FETCH_SURVEYS, payload: res.data });
+};
