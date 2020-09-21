@@ -15,13 +15,20 @@ class Header extends Component {
           </li>
         );
       default:
-        return ([
-          <li key="1"><Payments /></li>,
-          <li key="2" style={{margin:'0 10px'}}>
+        return [
+          <li key="1">
+            <Payments />
+          </li>,
+          <li key="2" style={{ margin: "0 10px" }}>
             Credits:{this.props.auth.credits}
           </li>,
-          <li key="3"><a href="api/logout">Logout</a></li>
-        ]);
+          <li key="3" style={{ margin: "0 10px" }}>
+            <Link to="/surveys">DashBoard</Link>
+          </li>,
+          <li key="4">
+            <a href="api/logout">Logout</a>
+          </li>,
+        ];
     }
   }
   render() {
@@ -29,10 +36,10 @@ class Header extends Component {
       <nav>
         <div className="nav-wrapper">
           <Link
-            to={this.props.auth ? "/surveys" : "/"}
+            to={"/"}
             className="left brand-logo"
-          ><div style={{marginLeft:'10px'}}>Emaily</div>
-            
+          >
+            <div style={{ marginLeft: "10px" }}>Emaily</div>
           </Link>
           <ul className="right">{this.renderContent()}</ul>
         </div>
