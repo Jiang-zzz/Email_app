@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import formFields from "./formFields";
 import { withRouter } from "react-router-dom";
@@ -17,6 +17,8 @@ const SurveyFormReview = ({ onCancel, formValues, submitSurvey, history }) => {
     );
   });
 
+  const [surveySend, setSurveysent] = useState(false);
+
   return (
     <div>
       <h5>Please confirm your entries</h5>
@@ -28,7 +30,12 @@ const SurveyFormReview = ({ onCancel, formValues, submitSurvey, history }) => {
         Back
       </button>
       <button
-        onClick={() => submitSurvey(formValues, history)}
+        onClick={() => {
+          if (!surveySend) {
+            setSurveysent(true);
+            submitSurvey(formValues, history);
+          }
+        }}
         className="green btn-flat right white-text"
       >
         Send SurveyFormReview
